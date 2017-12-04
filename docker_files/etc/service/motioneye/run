@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exec meyectl startserver -c /etc/motioneye/motioneye.conf
