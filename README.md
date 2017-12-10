@@ -16,3 +16,9 @@ When you are up and running, in order to save videos you will need to mount the 
 mkdir -p /tmp/motioneye
 docker run -d -p 8765:8765 -p 7999:7999 -v /tmp/motioneye:/var/lib/motioneye aphexddb/motioneye:latest
 ```
+
+## Adding cameras
+
+To add a motioneye camera, enter the IP and port:
+
+<img src="add_cam.png" />
