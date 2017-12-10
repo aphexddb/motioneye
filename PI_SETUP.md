@@ -39,6 +39,12 @@ After flashing the sdcard, enable the camera and SSH.
     raspistill -v -o test.jpg
     ```
 
+* Ensure Pi HW camera is loaded on start
+
+```bash
+printf "\nmodprobe bcm2835-v4l2" | sudo tee -a /etc/rc.local
+```
+
 * Get the latest Raspbian stretch upgrades:
 
     ```bash
