@@ -48,7 +48,7 @@ After flashing the sdcard, enable the camera and SSH.
 * Install extra packages from the standard repos:
 
     ```bash
-    sudo apt-get install -y libjpeg-dev libssl-dev libcurl4-openssl-dev libmariadbclient18 libpq5 mysql-common ffmpeg jq wget python-pip
+    sudo apt-get install -y libjpeg-dev libssl-dev libcurl4-openssl-dev libmariadbclient18 libpq5 mysql-common ffmpeg jq wget python-pip  python-dev
     ```
 
 * get and install pre-built motion package for stretch:
@@ -78,3 +78,44 @@ After flashing the sdcard, enable the camera and SSH.
 
 * Reboot: power cycle or `sudo shutdown -r now`
 
+## Motion Config
+
+Update motion.conf with `sudo vi /etc/motion/motion.conf`
+
+```txt
+# Restrict control connections to localhost only (default: on)
+webcontrol_localhost off
+```
+...
+```txt
+# Image width (pixels). Valid range: Camera dependent, default: 352
+width 1024
+
+# Image height (pixels). Valid range: Camera dependent, default: 288
+height 768
+
+# Maximum number of frames to be captured per second.
+# Valid range: 2-100. Default: 100 (almost no limit).
+framerate 25
+```
+...
+```txt
+# Restrict stream connections to localhost only (default: on)
+stream_localhost off
+```
+
+## Motioneye config
+
+Update motioneye.conf with `sudo vi /etc/motioneye/motioneye.conf`
+
+```txt
+# whether motion HTTP control interface listens on
+# localhost or on all interfaces
+motion_control_localhost false
+```
+
+## Camera Control
+
+To  pause and resume motion detection from a terminal or node-red etc. with commands:
+curl http://picam:7999/1/detection/pause -s -o /dev/null
+curl http://picam:7999/1/detection/start -s -o /dev/null
