@@ -2,7 +2,7 @@
 
 Tested using Raspbian Stretch Light as of `2017-11-29`. [Download](https://downloads.raspberrypi.org/raspbian_lite_latest).
 
-Motioneye runs on port 8765. To view after install completes: `http://<raspberry pi>:8765`.
+Motioneye runs on port 8765. To view after install completes: `http://<raspberry pi>:8765`. [Motion 4.0 guide](http://htmlpreview.github.io/?https://github.com/Motion-Project/motion/blob/4.0/motion_guide.html).
 
 ## Flash Image
 
