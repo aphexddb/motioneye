@@ -8,7 +8,17 @@ Motioneye runs on port 8765. To view after install completes: `http://<raspberry
 
 After flashing the sdcard, enable the camera and SSH.
 
-* Enable SSH by creating empty file `ssh` to sdcard.
+* Enable SSH by creating empty file `ssh` on sdcard.
+* Enable wifi by adding `wpa_supplicant-wlan0.conf` to sdcard:
+    ```txt
+    country=US
+    ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+    update_config=1
+    network={
+    ssid="yourwifissidhere"
+    psk="supersekret"
+    }
+    ```
 * Enable camera by adding this to `config.txt` on sdcard:
 
     ```txt
@@ -33,7 +43,19 @@ After flashing the sdcard, enable the camera and SSH.
 
 * Reboot: power cycle or `sudo shutdown -r now`
 
-* make sure camera is working
+* Set a random hostname
+
+    ```bash
+    RAND=`cat /dev/urandom | base64 | head -c 5 | awk '{print toupper($0)}'`
+    HOSTNAME="PiCam-$RAND"
+    printf $HOSTNAME | sudo tee /etc/hostname
+    sudo hostname $HOSTNAME
+    printf "127.0.0.1       $HOSTNAME\n" | sudo tee -a /etc/hosts
+    printf "127.0.1.1       $HOSTNAME\n" | sudo tee -a /etc/hosts
+    sudo sed -i "s/raspberrypi/$HOSTNAME/" /etc/hosts
+    ```
+
+* Make sure camera is working
 
     ```bash
     raspistill -v -o test.jpg
@@ -41,9 +63,9 @@ After flashing the sdcard, enable the camera and SSH.
 
 * Ensure Pi HW camera is loaded on start
 
-```bash
-printf "\nmodprobe bcm2835-v4l2" | sudo tee -a /etc/rc.local
-```
+    ```bash
+    printf "\nmodprobe bcm2835-v4l2" | sudo tee -a /etc/rc.local
+    ```
 
 * Get the latest Raspbian stretch upgrades:
 
@@ -54,7 +76,7 @@ printf "\nmodprobe bcm2835-v4l2" | sudo tee -a /etc/rc.local
 * Install extra packages from the standard repos:
 
     ```bash
-    sudo apt-get install -y libjpeg-dev libssl-dev libcurl4-openssl-dev libmariadbclient18 libpq5 mysql-common ffmpeg jq wget python-pip  python-dev
+    sudo apt-get install -y avahi-daemon libjpeg-dev libssl-dev libcurl4-openssl-dev libmariadbclient18 libpq5 mysql-common ffmpeg jq wget python-pip python-dev
     ```
 
 * get and install pre-built motion package for stretch:
@@ -84,7 +106,7 @@ printf "\nmodprobe bcm2835-v4l2" | sudo tee -a /etc/rc.local
 
 * Reboot: power cycle or `sudo shutdown -r now`
 
-## Motion Config
+### Motion Config
 
 Update motion.conf with `sudo vi /etc/motion/motion.conf`
 
@@ -92,7 +114,9 @@ Update motion.conf with `sudo vi /etc/motion/motion.conf`
 # Restrict control connections to localhost only (default: on)
 webcontrol_localhost off
 ```
+
 ...
+
 ```txt
 # Image width (pixels). Valid range: Camera dependent, default: 352
 width 1024
@@ -104,13 +128,15 @@ height 768
 # Valid range: 2-100. Default: 100 (almost no limit).
 framerate 25
 ```
+
 ...
+
 ```txt
 # Restrict stream connections to localhost only (default: on)
 stream_localhost off
 ```
 
-## Motioneye config
+### Motioneye config
 
 Update motioneye.conf with `sudo vi /etc/motioneye/motioneye.conf`
 
