@@ -16,6 +16,7 @@ RUN pip install motioneye
 
 # media directory
 RUN mkdir -p /var/lib/motioneye
+VOLUME /var/lib/motioneye
 
 EXPOSE 8765
 EXPOSE 7999
