@@ -22,9 +22,9 @@ After flashing the sdcard, enable the camera and SSH.
 * Enable camera by adding this to `config.txt` on sdcard:
 
     ```txt
-    # start_x=1             # essential
-    # gpu_mem=128           # at least, or maybe more if you wish
-    # disable_camera_led=1  # optional, if you don't want the led to glow
+    start_x=1             # essential
+    gpu_mem=128           # at least, or maybe more if you wish
+    disable_camera_led=1  # optional, if you don't want the led to glow
     ```
 
     Alternatively, add this to your one-time scripted setup:
